@@ -1,0 +1,67 @@
+---
+title: "ds4owd - capstone project report"
+subtitle: "faecal sludge analysis"
+author: "Rainbow Train"
+format: html
+execute: 
+  echo: true
+  warning: false
+editor: visual
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r}
+library(tidyverse)
+library(gt)
+```
+
+ 	The report renders without errors to HTML format and contains at least four chapters of heading level 1 that are named: Introduction, Methods, Results, Conclusions.
+
+# Introduction
+
+The goal of this project is to analyse samples from a feacal sludge characterization study. Samples were collected in ... between ...
+
+```{r}
+sludge <- read_csv(file = here::here("data/processed/faecal-sludge-analysis.csv"))
+```
+
+# Methods
+
+# Results
+
+```{r}
+
+tbl_summary_users_ts <- sludge |> 
+  filter(!is.na(users)) |> 
+  group_by(location, system) |> 
+  summarise(
+    count = n(),
+    mean_users = mean(users),
+    sd_users = sd(users),
+    median_users = median(users),
+    mean_ts = mean(ts),
+    sd_ts = sd(ts),
+    median_ts = median(ts)
+  )
+
+```
+
+@tbl-summary-users-ts shows ...
+
+```{r}
+#| label: tbl-summary-users-ts
+#| tbl-cap: Summary statistics for number of users and total solids (mg/L) by sample location and sanitation system. 
+
+tbl_summary_users_ts |> 
+  ungroup() |> 
+  gt() |> 
+  fmt_number(columns = mean_users:median_users, decimals = 0) |> 
+  fmt_number(columns = mean_ts:median_ts, decimals = 1)
+```
+
+
+
+# Conclusions
+
+# References
